@@ -20,9 +20,9 @@ public class Test {
             //File file=new File("C:\\Users\\Administrator\\IdeaProjects\\ConsoleShop\\src\\users.xlsx");
             InputStream in = Class.forName("Test").getResourceAsStream("/users.xlsx");//  /表示的就是classpath
             ReadUserExcel readExcel = new ReadUserExcel();//创建对象
-            User users[] = readExcel.getAllUser(in);
-            for (int i = 0; i < users.length; i++) {
-                if (username.equals(users[i].getUsername()) && password.equals(users[i].getPassword())) {
+            User[] users = readExcel.getAllUser(in);
+            for (User user : users) {
+                if (username.equals(user.getUsername()) && password.equals(user.getPassword())) {
                     bool = false;
                     while (true) {
                         System.out.println("查看购物车请按1");
@@ -41,15 +41,15 @@ public class Test {
                             3、把购物车里的商品写入Order.xlsx文件
                              */
                             Order order = new Order();
-                            order.setUser(users[i]);//订单关联用户
-                            Product products[]=new Product[count];
-                            int num=0;
+                            order.setUser(user);//订单关联用户
+                            Product[] products = new Product[count];
+                            int num = 0;
                             /*
                             实际买了2个商品，怎样把carts中的2个Product对象放入products
                              */
-                            for(int j=0;j<carts.length;j++){
-                                if(carts[j]!=null){
-                                    products[j]=carts[j];
+                            for (int j = 0; j < carts.length; j++) {
+                                if (carts[j] != null) {
+                                    products[j] = carts[j];
                                 }
                             }
                             order.setProducts(products);//订单关联商品：实际上应该进行处理，把数组中为null的去除
@@ -83,7 +83,7 @@ public class Test {
     public static void shopping(Scanner sc) throws ClassNotFoundException {
         InputStream inPro = Class.forName("Test").getResourceAsStream("/product.xlsx");//  /表示的就是classpath
         ReadProductExcel readProductExcel = new ReadProductExcel();
-        Product products[] = readProductExcel.getAllProduct(inPro);
+        Product[] products = readProductExcel.getAllProduct(inPro);
         for (Product product : products) {
             System.out.print(product.getId());
             System.out.print("\t" + product.getName());
